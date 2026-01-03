@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 
+
+
 function App() {
   const [formType, setFormType] = useState("login");
 
@@ -17,6 +19,7 @@ function App() {
   const [codeSent, setCodeSent] = useState(false);
   const [codeVerified, setCodeVerified] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
+  const [showUserInfo, setShowUserInfo] = useState(false);
 
   const showForm = (type) => {
     setFormType(type);
@@ -45,7 +48,7 @@ function App() {
         body: JSON.stringify({ email: signupEmail }),
       });
       if (res.ok) {
-        alert("Verification code sent to your email (dummy code: 123456)");
+        alert("Verification code sent to your email");
         setCodeSent(true);
       } else {
         const data = await res.json();
@@ -125,6 +128,7 @@ function App() {
       });
       if (res.ok) {
         alert("Login successful!");
+        setShowUserInfo(true);
   
       } else {
         const data = await res.json();
@@ -137,6 +141,7 @@ function App() {
 
   return (
     <>
+    
       <div className="main">
         <div className="navbar">
           <div className="icon">
@@ -331,6 +336,10 @@ function App() {
           </div>
         </div>
       </div>
+
+      {showUserInfo && (
+        <UserInfoForm onClose={() => setShowUserInfo(false)} />
+      )}
     </>
   );
 }
